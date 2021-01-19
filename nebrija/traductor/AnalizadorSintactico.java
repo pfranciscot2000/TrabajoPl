@@ -58,7 +58,7 @@ public class AnalizadorSintactico {
 	private void declaraciones() {
 		String etiqueta = this.componenteLexico.getEtiqueta();
 		
-		if(etiqueta.equals("int") || etiqueta.equals("float")) {
+		if(etiqueta.equals("int") || etiqueta.equals("float") || etiqueta.equals("boolean")) {
 			declaracion();
 			declaraciones();
 		}
@@ -96,7 +96,7 @@ public class AnalizadorSintactico {
 	public void instrucciones() {
 		String etiqueta = this.componenteLexico.getEtiqueta();
 		
-		if(etiqueta.equals("id") || etiqueta.equals("if") || etiqueta.equals("while") || etiqueta.equals("do")) {
+		if(etiqueta.equals("id") || etiqueta.equals("if") || etiqueta.equals("while") || etiqueta.equals("do") || etiqueta.equals("print") || etiqueta.equals("open_bracket") || etiqueta.equals("open_square_bracket") || etiqueta.equals("int") || etiqueta.equals("float") || etiqueta.equals("boolean")){
 			instruccion();
 			instrucciones();
 		}
@@ -106,12 +106,56 @@ public class AnalizadorSintactico {
 		String etiqueta = this.componenteLexico.getEtiqueta();
 		
 		if(etiqueta.equals("id")) {
-			asignacion();
+			variable();
+			compara("assignment");
+			expresionLogica();
 			compara("semicolon");
+		}
+		else if(etiqueta.equals("if")) {
+			compara("if");
+			compara("open_parenthesis");
+			expresionLogica();
+			compara("closed_parenthesis");
+			instruccion();
+			if(this.componenteLexico.getEtiqueta().equals("else")) {
+				compara("else");
+				instruccion();
+			}
+		}
+		else if(etiqueta.equals("while")) {
+			compara("while");
+			compara("open_parenthesis");
+			expresionLogica();
+			compara("closed_parenthesis");
+			instruccion();
+		}
+		else if(etiqueta.equals("do")) {
+			compara("do");
+			instruccion();
+			compara("while");
+			compara("open_parenthesis");
+			expresionLogica();
+			compara("closed_parenthesis");
+			compara("semicolon");
+		}
+		else if(etiqueta.equals("print")) {
+			compara("print");
+			compara("open_parenthesis");
+			variable();
+			compara("closed_parenthesis");
+			compara("semicolon");
+		}
+		else if(etiqueta.equals("open_bracket")) {
+			compara("open_bracket");
+			instrucciones();
+			compara("closed_bracket");
+		}
+		else if(etiqueta.equals("int") || etiqueta.equals("float") || etiqueta.equals("boolean")) {
+			declaracion();
 		}
 	}
 	
-	public void asignacion() {
+	/*public void asignacion() {
 		if(this.componenteLexico.getEtiqueta().equals("id")) {
 			Identificador id1 = (Identificador) this.componenteLexico;
 			
@@ -130,7 +174,7 @@ public class AnalizadorSintactico {
 			else
 				System.out.println(id1.getLexema() + " (" + tipo1 + ") vs " + id2.getLexema() + " (" + tipo2 + ") type mismatch");
 		}
-	}
+	}*/
 	
 	private String tipo() {
 		String tipo = this.componenteLexico.getEtiqueta();
@@ -313,5 +357,17 @@ public class AnalizadorSintactico {
 		}
 		
 		return operadorRelacional;
+	}
+	
+	private void variable() {
+		String etiqueta = this.componenteLexico.getEtiqueta();
+		if(etiqueta.equals("id")) {
+			compara("id");
+			if(this.componenteLexico.getEtiqueta().equals("open_square_bracket")) {
+				compara("open_square_bracket");
+				expresion();
+				compara("closed_square_bracket");
+			}
+		}
 	}
 }
