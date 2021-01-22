@@ -10,6 +10,8 @@ import nebrija.traductor.NumeroEntero;
 import nebrija.traductor.TipoArray;
 import nebrija.traductor.TipoDato;
 import nebrija.traductor.TipoPrimitivo;
+import java.util.Stack;
+import java.util.Scanner
 
 public class AnalizadorSintactico {
 	private ComponenteLexico componenteLexico;
@@ -23,8 +25,25 @@ public class AnalizadorSintactico {
 		this.componenteLexico = this.lexico.getComponenteLexico();
 		this.lexico = lexico;
 		this.componenteLexico = this.lexico.getComponenteLexico();
-		//this.pila = new Stack<Integer>();
+		this.pila = new Stack<Integer>();
 		this.postfijo = "";
+		/*Scanner x= new Scanner(System.in)
+		  String entrada= x.next();
+		  String salida="";
+		  Stack <Character>p= new <Character> Stack();
+		  for(int i=0;i<entrada.length(); i++){
+			  if(entrada.CharAt(i)>='0'& entrada.CharAt(i)<='9')
+				  salida= salida+ entrada.CharAt(i);
+			  if(entrada.CharAt(i)>='*' & entrada.CharAt(i)<='/')
+			      p.push(entrada.CharAt(i));
+			  if(entrada.CharAt(i)==')')
+				   salida= salida+ p.pop(); 
+		  }
+		  while(!p.isEmpty())
+			  salida= salida+ p.pop();
+		  
+		  System.out.print(salida);
+		*/
 	}
 	
 	private void compara(String etiqueta) {
