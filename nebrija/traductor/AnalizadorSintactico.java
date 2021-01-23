@@ -11,7 +11,7 @@ import nebrija.traductor.TipoArray;
 import nebrija.traductor.TipoDato;
 import nebrija.traductor.TipoPrimitivo;
 import java.util.Stack;
-import java.util.Scanner
+import java.util.Scanner;
 
 public class AnalizadorSintactico {
 	private ComponenteLexico componenteLexico;
