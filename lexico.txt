@@ -1,54 +1,54 @@
-// El fichero lexico.txt define los componentes léxicos del lenguaje,
-// definidos por parejas de componente léxicos y lexemas
-// Operadores relacionales y de asignación
+//----------------------------------------------
+//   Componentes lexicos (tokens) y lexemas
+//----------------------------------------------
 
-greater_than	> 
-greater_equals	>=
-less_than	<
-less_equals	<=
-equals	==
-not_equals	!=
-assignment	=
+// Operadores relacionales y de asignaciÃ³n
 
-// Operadores aritméticos
+greater_than			>
+greater_equals			>=
+less_than				<
+less_equals				<=
+equals					==
+not_equals				!=
+assignment				=
 
-add	+
-subtract	-
-multiply	*
-divide		/
-remainder	%
+// Operadores aritmÃ©ticos
 
-// Operadores lógicos
+add						+
+subtract				-
+multiply				*
+divide					/
+remainder				%
 
-and	&&
-or	||
-not	!
+// Operadores lÃ³gicos
+
+and						&&
+or						||
+not						!
+
 // Delimitadores
 
-dot	.
-comma	,
-semicolon	;
-open_parenthesis	(
-closed_parenthesis	)
-open_square_bracket	[
+dot						.
+comma					,
+semicolon				;
+open_parenthesis		(
+closed_parenthesis		)
+open_square_bracket		[
 closed_square_bracket	]
-open_bracket	{
-closed_bracket	}
-end_program		#
+open_bracket			{
+closed_bracket			}
 
 // Palabras reservadas
 
-boolean	boolean
-break	break
-do	do
-else	else
-false	false
-float	float
-for	for
-if	if
-int	int
-while	while
-true	true
-void	void
-main	main
-print	print
+boolean					boolean
+do						do
+else					else
+false					false
+float					float
+if						if
+int						int
+main					main
+print					print
+while					while
+true					true
+void					void
