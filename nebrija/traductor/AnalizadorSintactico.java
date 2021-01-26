@@ -10,8 +10,6 @@ import nebrija.traductor.NumeroEntero;
 import nebrija.traductor.TipoArray;
 import nebrija.traductor.TipoDato;
 import nebrija.traductor.TipoPrimitivo;
-import java.util.Stack;
-import java.util.Scanner;
 
 public class AnalizadorSintactico {
 	private ComponenteLexico componenteLexico;
@@ -25,25 +23,8 @@ public class AnalizadorSintactico {
 		this.componenteLexico = this.lexico.getComponenteLexico();
 		this.lexico = lexico;
 		this.componenteLexico = this.lexico.getComponenteLexico();
-		this.pila = new Stack<Integer>();
+		//this.pila = new Stack<Integer>();
 		this.postfijo = "";
-		/*Scanner x= new Scanner(System.in)
-		  String entrada= x.next();
-		  String salida="";
-		  Stack <Character>p= new <Character> Stack();
-		  for(int i=0;i<entrada.length(); i++){
-			  if(entrada.CharAt(i)>='0'& entrada.CharAt(i)<='9')
-				  salida= salida+ entrada.CharAt(i);
-			  if(entrada.CharAt(i)>='*' & entrada.CharAt(i)<='/')
-			      p.push(entrada.CharAt(i));
-			  if(entrada.CharAt(i)==')')
-				   salida= salida+ p.pop(); 
-		  }
-		  while(!p.isEmpty())
-			  salida= salida+ p.pop();
-		  
-		  System.out.print(salida);
-		*/
 	}
 	
 	private void compara(String etiqueta) {
@@ -64,14 +45,18 @@ public class AnalizadorSintactico {
 	}
 	
 	public void programa() {
-		compara("void");
+		if(this.componenteLexico.getEtiqueta().equals("void")) {
+			compara("void");
+		}
 		compara("main");
-		compara("open_parenthesis");
+		compara("open_bracket");
 		
 		declaraciones();
 		instrucciones();
 		
-		compara("close_parenthesis");
+		if(this.componenteLexico.getEtiqueta().equals("closed_bracket")) {
+			compara("closed_bracket");
+		}
 	}
 	
 	private void declaraciones() {
@@ -109,7 +94,9 @@ public class AnalizadorSintactico {
 		}
 		
 		identificadores(tipo);
-		compara("semicolon");
+		if(this.componenteLexico.getEtiqueta().equals("semicolon")) {
+			compara("semicolon");
+		}
 	}
 	
 	public void instrucciones() {
@@ -174,7 +161,7 @@ public class AnalizadorSintactico {
 		}
 	}
 	
-	/*public void asignacion() {
+	public void asignacion() {
 		if(this.componenteLexico.getEtiqueta().equals("id")) {
 			Identificador id1 = (Identificador) this.componenteLexico;
 			
@@ -193,7 +180,7 @@ public class AnalizadorSintactico {
 			else
 				System.out.println(id1.getLexema() + " (" + tipo1 + ") vs " + id2.getLexema() + " (" + tipo2 + ") type mismatch");
 		}
-	}*/
+	}
 	
 	private String tipo() {
 		String tipo = this.componenteLexico.getEtiqueta();
@@ -217,7 +204,6 @@ public class AnalizadorSintactico {
 	private void identificadores(String tipo) {
 		if(this.componenteLexico.getEtiqueta().equals("id")) {
 			Identificador id = (Identificador) this.componenteLexico;
-			
 			simbolos.put(id.getLexema(), new TipoPrimitivo(tipo));
 			
 			compara("id");
@@ -255,13 +241,15 @@ public class AnalizadorSintactico {
 		if (this.componenteLexico.getEtiqueta().equals("add")) {
 			compara("add");
 			termino();
-			System.out.print(" + ");
+			//System.out.print(" + ");
+			postfijo += " + ";
 			masTerminos();
 		}
 		else if (this.componenteLexico.getEtiqueta().equals("subtract")) {
 			compara("subtract");
 			termino();
-			System.out.print(" - ");
+			//System.out.print(" - ");
+			postfijo += " - ";
 			masTerminos();
 		}
 	}
@@ -275,13 +263,15 @@ public class AnalizadorSintactico {
 		if (this.componenteLexico.getEtiqueta().equals("multiply")) {
 			compara("multiply");
 			factor();
-			System.out.print(" * ");
+			//System.out.print(" * ");
+			postfijo += " * ";
 			masFactores();
 		}
 		else if (this.componenteLexico.getEtiqueta().equals("divide")) {
 			compara("divide");
 			factor();
-			System.out.print(" / ");
+			//System.out.print(" / ");
+			postfijo += " / ";
 			masFactores();
 		}
 	}
@@ -294,7 +284,8 @@ public class AnalizadorSintactico {
 		}
 		else if (this.componenteLexico.getEtiqueta().equals("int")) {
 			NumeroEntero numero = (NumeroEntero) this.componenteLexico;
-			System.out.print(" " + numero.getValor() + " ");
+			//System.out.print(" " + numero.getValor() + " ");
+			postfijo += numero.getValor();
 			compara("int");
 		}
 		else
